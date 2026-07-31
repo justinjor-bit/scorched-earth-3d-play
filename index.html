@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Inline so there is no favicon request to 404. A stray 404 in the console
+         is indistinguishable from a real asset failure to the screenshot harness. -->
+    <link rel="icon" href="data:," />
+    <title>Scorched Earth 3D</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; overflow: hidden; background: #05070a; }
+      canvas { display: block; width: 100%; height: 100%; }
+
+      #boot {
+        position: fixed; inset: 0; display: grid; place-content: center;
+        font: 13px/1.6 ui-monospace, "Cascadia Code", Consolas, monospace;
+        color: #8fa3b8; letter-spacing: .02em; pointer-events: none;
+        transition: opacity .6s ease;
+      }
+      #boot.hidden { opacity: 0; }
+      #boot h1 {
+        font: 600 11px/1 ui-monospace, monospace; letter-spacing: .38em;
+        text-transform: uppercase; color: #d9531e; margin-bottom: 1.4rem;
+      }
+      #boot dl { display: grid; grid-template-columns: auto auto; gap: .3rem 1.6rem; }
+      #boot dt { color: #4a5a6b; }
+      #boot dd { color: #c8d6e4; }
+      #boot .warn { color: #e0a33c; }
+      #boot .err  { color: #e05a3c; }
+      /* Boot is not instant and pretending otherwise is what makes it feel slow:
+         the island is eroded on the CPU before the first frame can be drawn, and
+         a still page for three seconds reads as a hung tab rather than as work.
+         `main.ts` writes the current phase here and yields a frame so it paints. */
+      #boot #boot-phase { margin-top: 1.3rem; color: #6d8299; min-height: 1.6em; }
+      #boot #boot-phase::after {
+        content: ''; display: inline-block; width: 0; overflow: hidden;
+        vertical-align: bottom; animation: boot-dots 1.2s steps(4) infinite;
+      }
+      @keyframes boot-dots { to { width: 1.2em; } }
+    </style>
+    <script type="module" crossorigin src="./assets/index-DMVJLBCx.js"></script>
+  </head>
+  <body>
+    <div id="boot">
+      <h1>Scorched Earth 3D</h1>
+      <dl id="boot-info"></dl>
+      <div id="boot-phase">starting</div>
+    </div>
+  </body>
+</html>
